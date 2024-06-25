@@ -12,5 +12,3 @@ cd riscv-gnu-toolchain
 make
 
 riscv64-unknown-elf-gcc -print-multi-lib
-cd $BUILD_DIR
-tar -czvf riscvxx-unknown-elf-prebuilt.tar.gz .
