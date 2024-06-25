@@ -1,0 +1,28 @@
+name: Generate Toolchains
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    name: 'Generate Toolchains'
+
+    steps:
+
+      - name: '💾 Checkout'
+        uses: actions/checkout@v4
+
+      - name: '▶️ Toolchains Generation'
+        run: /bin/bash -c "chmod u+x $GITHUB_WORKSPACE/build.sh && $GITHUB_WORKSPACE/build.sh"
+
+      - name: 'Tagged Release'
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            riscvxx-unknown-elf-prebuilt.tar.gz
