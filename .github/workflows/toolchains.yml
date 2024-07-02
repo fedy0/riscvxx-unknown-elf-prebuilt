@@ -21,7 +21,6 @@ jobs:
       - name: '▶️ Toolchains Generation'
         run: |
           /bin/bash -c "chmod u+x $GITHUB_WORKSPACE/build.sh && $GITHUB_WORKSPACE/build.sh"
-          tar -czvf riscvxx-unknown-elf-prebuilt-${{ env.RELEASE_VERSION }}.tar.gz $GITHUB_WORKSPACE/build
 
       - name: 'Tagged Release'
         uses: "marvinpinto/action-automatic-releases@latest"
