@@ -11,4 +11,9 @@ cd riscv-gnu-toolchain
 ./configure --prefix=${BUILD_DIR} --enable-multilib
 make
 
-riscv64-unknown-elf-gcc -print-multi-lib
+riscv64-unknown-elf-gcc --version
+if [[ $? == 0 ]] then
+  riscv64-unknown-elf-gcc -print-multi-lib
+else
+  exit 1
+fi
