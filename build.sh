@@ -9,7 +9,7 @@ sudo apt-get install -y autoconf automake autotools-dev curl python3 python3-pip
 git clone https://github.com/riscv/riscv-gnu-toolchain
 cd riscv-gnu-toolchain
 ./configure --prefix=${BUILD_DIR} --enable-multilib
-make
+make -j`nproc`
 
 riscv64-unknown-elf-gcc --version
 if [[ $? == 0 ]]
