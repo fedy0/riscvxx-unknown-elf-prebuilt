@@ -12,7 +12,8 @@ cd riscv-gnu-toolchain
 make
 
 riscv64-unknown-elf-gcc --version
-if [[ $? == 0 ]] then
+if [[ $? == 0 ]]
+then
   riscv64-unknown-elf-gcc -print-multi-lib
 else
   exit 1
