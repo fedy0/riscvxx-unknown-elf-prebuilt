@@ -12,9 +12,4 @@ cd riscv-gnu-toolchain
 make -j`nproc`
 
 ${BUILD_DIR}/bin/riscv64-unknown-elf-gcc --version
-if [[ $? == 0 ]]
-then
-  ${BUILD_DIR}/bin/riscv64-unknown-elf-gcc -print-multi-lib
-else
-  exit 1
-fi
+
