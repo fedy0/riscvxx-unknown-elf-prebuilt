@@ -24,7 +24,7 @@ jobs:
         with:
           strip_v: true
       - name: Use tag
-          run: echo "Current Tag ${{steps.tag.outputs.tag}}"
+          run: echo ${{steps.tag.outputs.tag}}
 
       - name: '▶️ Toolchains Generation'
         run: |
