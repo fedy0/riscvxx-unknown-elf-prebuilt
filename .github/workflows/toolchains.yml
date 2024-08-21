@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - "*"
-env:
-  COMMIT_TAG: $(echo $GITHUB_REF | sed 's/refs\/tags\///')
   
 jobs:
 
@@ -29,8 +27,9 @@ jobs:
       - name: '▶️ Toolchains Generation'
         run: |
           /bin/bash -c "chmod u+x $GITHUB_WORKSPACE/build.sh && $GITHUB_WORKSPACE/build.sh"
+          echo "BUILD_VERSION_DATE=$(echo $GITHUB_REF | sed 's/refs\/tags\///')-$(date +"%Y.%m.%d")" >> $GITHUB_ENV
           cd $GITHUB_WORKSPACE/build
-          tar -czvf riscvxx-unknown-elf-prebuilt-${{steps.tag.outputs.tag}}.tar.gz *
+          tar -czvf riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz *
 
       - name: Create Release
         id: create_release
@@ -50,6 +49,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $GITHUB_WORKSPACE/build/riscvxx-unknown-elf-prebuilt-${{steps.tag.outputs.tag}}.tar.gz
-          asset_name: riscvxx-unknown-elf-prebuilt-${{steps.tag.outputs.tag}}.tar.gz
+          asset_path: $GITHUB_WORKSPACE/build/riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz
+          asset_name: riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz
           asset_content_type: application/gzip
