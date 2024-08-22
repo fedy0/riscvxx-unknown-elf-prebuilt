@@ -9,20 +9,13 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    name: 'Generate Toolchains'
+    permissions:
+      contents: write
 
     steps:
 
       - name: '💾 Checkout'
         uses: actions/checkout@v4
-        
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-        with:
-          strip_v: true
-      - name: Use tag
-        run: echo "Current Tag ${{steps.tag.outputs.tag}}"
 
       - name: '▶️ Toolchains Generation'
         run: |
@@ -30,25 +23,8 @@ jobs:
           echo "BUILD_VERSION_DATE=$(echo $GITHUB_REF | sed 's/refs\/tags\///')-$(date +"%Y.%m.%d")" >> $GITHUB_ENV
           cd $GITHUB_WORKSPACE/build
           tar -czvf riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz *
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-          
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $GITHUB_WORKSPACE/build/riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz
-          asset_name: riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz
-          asset_content_type: application/gzip
+      - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "$GITHUB_WORKSPACE/build/riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz"
+        bodyFile: "$GITHUB_WORKSPACE/CHANGELOG.md"
+    
