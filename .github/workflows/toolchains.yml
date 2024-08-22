@@ -23,7 +23,6 @@ jobs:
           cd $GITHUB_WORKSPACE/build
           tar -czvf riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz *
       - uses: ncipollo/release-action@v1
-      with:
+        with:
         artifacts: "$GITHUB_WORKSPACE/build/riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz"
         bodyFile: "$GITHUB_WORKSPACE/CHANGELOG.md"
-    
