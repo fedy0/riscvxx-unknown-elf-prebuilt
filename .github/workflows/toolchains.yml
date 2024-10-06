@@ -19,9 +19,10 @@ jobs:
       - name: '▶️ Toolchains Generation'
         run: |
           /bin/bash -c "chmod u+x $GITHUB_WORKSPACE/build.sh && $GITHUB_WORKSPACE/build.sh"
-          echo "BUILD_VERSION_DATE=$(echo $GITHUB_REF | sed 's/refs\/tags\///')-$(date +"%Y.%m.%d")" >> $GITHUB_ENV
+          #echo "BUILD_VERSION_DATE=$(echo $GITHUB_REF | sed 's/refs\/tags\///')-$(date +"%Y.%m.%d")" >> $GITHUB_ENV
           cd $GITHUB_WORKSPACE/build
-          tar -czvf riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz *
+          #tar -czvf riscvxx-unknown-elf-prebuilt-${BUILD_VERSION_DATE}.tar.gz *
+          tar -czvf riscvxx-unknown-elf-prebuilt.tar.gz *
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "build/*.tar.gz"
